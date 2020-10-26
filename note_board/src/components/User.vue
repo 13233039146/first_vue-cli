@@ -17,8 +17,7 @@
                 <td>{{ user.salary }}</td>
                 <td><input type="button" value="删除" @click="delete_user(index)"></td>
                 <td>
-                    <router-link :to="`/userDetail/${user.username}/${user.age}/${user.birthday}
-                    /${user.salary}`"><input type="button" value="查看详情"></router-link>
+                    <router-link :to="`/userDetail/${user.username}`"><input type="button" value="查看详情"></router-link>
                 </td>
             </tr>
         </table>
@@ -35,6 +34,9 @@
 
 <script>
 export default {
+    created() {
+
+    },
     name: "User",
     data: function () {
         return {
