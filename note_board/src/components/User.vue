@@ -1,26 +1,41 @@
 <template>
-    <div>这是用户页
+    <div>
+        <h2>用户列表页</h2>
         <hr>
-        <table border="1px" cellspacing="0">
-            <tr>
-                <td>姓名</td>
-                <td>年龄</td>
-                <td>生日</td>
-                <td>工资</td>
-                <td>操作1</td>
-                <td>操作2</td>
-            </tr>
-            <tr v-for="(user,index) in users" :key="index">
-                <td>{{ user.username }}</td>
-                <td>{{ user.age }}</td>
-                <td>{{ user.birthday }}</td>
-                <td>{{ user.salary }}</td>
-                <td><input type="button" value="删除" @click="delete_user(index)"></td>
-                <td>
-                    <router-link :to="`/userDetail/${user.username}`"><input type="button" value="查看详情"></router-link>
-                </td>
-            </tr>
-        </table>
+        <el-table :data="users">
+            <el-table-column label="姓名">
+                <template slot-scope="scope">
+                    <span style="margin-left: 10px">{{ scope.row.username }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column label="年龄">
+                <template slot-scope="scope">
+                    <span style="margin-left: 10px">{{ scope.row.age }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column label="生日">
+                <template slot-scope="scope">
+                    <i class="el-icon-time"></i>
+                    <span style="margin-left: 10px">{{ scope.row.birthday }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column label="工资">
+                <template slot-scope="scope">
+                    <span style="margin-left: 10px">{{ scope.row.salary }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column label="操作1">
+                <template slot-scope="scope">
+                    <router-link :to="`/userDetail/${scope.row.username}`">
+                        <el-button size="mini" type="warning">查看详情</el-button>
+                    </router-link>
+                </template>
+            </el-table-column>
+            <el-table-column label="操作2">
+                <el-button size="mini" type="danger" @click="delete_user(index)">删除</el-button>
+            </el-table-column>
+
+        </el-table>
         <hr>
         <div>添加用户板块</div>
         姓名:<input type="text" v-model="username"><br>
@@ -34,14 +49,12 @@
 
 <script>
 export default {
-    created() {
 
-    },
     name: "User",
-    data: function () {
+    data() {
         return {
             users: localStorage.users ? JSON.parse(localStorage.users) : [],
-            // [
+            // users:[
             // {username: '张三', age: 18, birthday: '2000-10-10', salary: 8000},
             // {username: '李四', age: 19, birthday: '1998-11-02', salary: 9000},
             // {username: '王五', age: 20, birthday: '2015-05-05', salary: 9500},
@@ -62,8 +75,8 @@ export default {
             localStorage.users = JSON.stringify(this.users);
             this.username = this.age = this.birthday = this.salary = '';
         },
-        delete_user(index){
-            this.users.splice(index,1);
+        delete_user(index) {
+            this.users.splice(index, 1);
             localStorage.users = JSON.stringify(this.users);
         }
     },
